@@ -28,7 +28,7 @@ class _ActorSelectionState extends State<ActorSelection> {
                   height: 100,
                 ),
               ),
-              Text("KindBridge"),
+              // Text("KindBridge"),
               SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,6 +83,9 @@ class _ActorSelectionState extends State<ActorSelection> {
                                 : Colors.transparent,
                             width: (selection == x) ? 60 : 40,
                             height: (selection == x) ? 60 : 40,
+                            child: Image.asset(
+                              ["assets/charity.png", "assets/ngo.png"][x],
+                            ),
                           ),
                         ),
                         Column(

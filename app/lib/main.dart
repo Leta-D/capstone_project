@@ -1,3 +1,5 @@
+import 'package:capstone_project/ui/authen/login_page.dart';
+import 'package:capstone_project/ui/authen/signup_page.dart';
 import 'package:capstone_project/ui/landing_pages/actor_selection.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', home: ActorSelection());
+    return MaterialApp(title: 'Flutter Demo', home: SignupPage());
   }
 }
