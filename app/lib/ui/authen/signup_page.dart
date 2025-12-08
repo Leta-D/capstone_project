@@ -1,4 +1,6 @@
+import 'package:capstone_project/app_routes/app_routes.dart';
 import 'package:capstone_project/constant/app_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
@@ -9,6 +11,15 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwdController = TextEditingController();
+
+  bool nameError = false;
+  bool emailError = false;
+  bool passwdError = false;
+
+  bool showPasswd = false;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.sizeOf(context);
@@ -36,7 +47,16 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.login,
+                          arguments: {
+                            "anim": AppRouteAnimationType.fade,
+                            "duration": 500,
+                          },
+                        );
+                      },
                       child: Text(
                         "Sign in",
                         style: TextStyle(color: AppColors.black(1)),
@@ -61,6 +81,7 @@ class _SignupPageState extends State<SignupPage> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   TextField(
+                    controller: nameController,
                     cursorColor: AppColors.black(1),
                     decoration: InputDecoration(
                       labelText: "Name",
@@ -79,16 +100,19 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide(color: AppColors.red(1)),
                       ),
-                      errorText: null, // "type some thing"
+                      errorText: nameError
+                          ? "Name must be atleast 3 char"
+                          : null,
                     ),
                   ),
                   SizedBox(),
                   TextField(
+                    controller: emailController,
                     cursorColor: AppColors.black(1),
                     decoration: InputDecoration(
                       labelText: "Email",
                       labelStyle: TextStyle(color: AppColors.black(1)),
-                      // hintText: "@example.com",
+
                       prefixIcon: Icon(
                         Icons.email_rounded,
                         color: AppColors.green(1),
@@ -106,20 +130,25 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide(color: AppColors.red(1)),
                       ),
-                      errorText: null, // "type some thing"
+                      errorText: emailError ? "Invalid email" : null,
                     ),
                   ),
                   SizedBox(),
                   TextField(
+                    controller: passwdController,
                     cursorColor: AppColors.black(1),
-                    obscureText: true,
+                    obscureText: showPasswd,
                     decoration: InputDecoration(
                       labelText: "Password",
                       labelStyle: TextStyle(color: AppColors.black(1)),
                       prefixIcon: Icon(Icons.lock, color: AppColors.green(1)),
                       suffix: InkWell(
-                        onTap: () {},
-                        child: Icon(Icons.remove_red_eye_outlined),
+                        onTap: () => setState(() => showPasswd = !showPasswd),
+                        child: Icon(
+                          showPasswd
+                              ? CupertinoIcons.eye
+                              : CupertinoIcons.eye_slash,
+                        ),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -133,13 +162,26 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide(color: AppColors.red(1)),
                       ),
-                      errorText: null, // "type some thing"
+                      errorText: passwdError
+                          ? "password must atleast be 8 char"
+                          : null,
                     ),
                   ),
                   SizedBox(),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        nameError = nameController.text.length < 3;
+                        emailError = !RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(emailController.text);
+                        passwdError = passwdController.text.length < 8;
+                      });
 
+                      if (!nameError && !emailError && !passwdError) {
+                        print("Sending data");
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: AppColors.white(1),
                       backgroundColor: AppColors.green(0.8),

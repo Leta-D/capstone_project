@@ -1,3 +1,5 @@
+import 'package:capstone_project/app_routes/app_routes.dart';
+import 'package:capstone_project/app_routes/routes_generator.dart';
 import 'package:capstone_project/ui/authen/login_page.dart';
 import 'package:capstone_project/ui/authen/signup_page.dart';
 import 'package:capstone_project/ui/landing_pages/actor_selection.dart';
@@ -12,6 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', home: SignupPage());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: AppRoutes.mainPage,
+      onGenerateRoute: RoutesGenerator.generateRoute,
+    );
   }
 }
