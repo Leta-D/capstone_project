@@ -6,6 +6,7 @@ class UserModel {
   String role;
   String phoneNumber;
   String? profileImageUrl;
+  String badge;
   bool isActive;
   DateTime createdAt;
   DateTime lastLogin;
@@ -18,6 +19,7 @@ class UserModel {
     required this.role,
     required this.phoneNumber,
     required this.profileImageUrl,
+    required this.badge,
     required this.isActive,
     required this.createdAt,
     required this.lastLogin,
