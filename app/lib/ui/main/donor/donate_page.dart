@@ -180,6 +180,8 @@ class _DonatePageState extends State<DonatePage> {
                         ),
                       );
                     },
+                    // add the following on location and image selection
+                    // SnackBar(content: Text("data"));
                     splashColor: AppColors.lightGreen(0.5),
                     child: Column(
                       children: [

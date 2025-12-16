@@ -108,7 +108,8 @@ class _MainPageState extends State<MainPage> {
           //       ),
           //     ),
           Drawer(
-            backgroundColor: AppColors.lightGreen(0.5),
+            // backgroundColor: AppColors.lightGreen(0.5),
+            backgroundColor: const Color.fromRGBO(133, 179, 152, 0.9),
             shadowColor: AppColors.black(1),
             elevation: 10,
             child: Column(
@@ -166,7 +167,11 @@ class _MainPageState extends State<MainPage> {
                                 : FontWeight.w400,
                           ),
                           trailing: (currentPageIndex == index)
-                              ? Icon(CupertinoIcons.circle_filled, size: 10)
+                              ? Icon(
+                                  CupertinoIcons.circle_filled,
+                                  size: 10,
+                                  color: const Color.fromARGB(255, 7, 255, 102),
+                                )
                               : null,
                           leading: Icon(
                             (currentPageIndex == index)
@@ -184,7 +189,39 @@ class _MainPageState extends State<MainPage> {
                 ),
                 Spacer(),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+
+                      builder: (_) => AlertDialog(
+                        backgroundColor: AppColors.white(0.8),
+                        title: Text('Logout'),
+                        content: const Text("Are you sure to logout?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              'No',
+                              style: TextStyle(
+                                color: AppColors.green(0.9),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              'Yes',
+                              style: TextStyle(
+                                color: AppColors.red(0.9),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                   iconColor: AppColors.red(1),
                   leading: Icon(Icons.exit_to_app_rounded),
                   title: Text(
