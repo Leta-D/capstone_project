@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:bloc/bloc.dart';
 import 'package:capstone_project/constant/app_colors.dart';
 import 'package:capstone_project/logic/auth/auth_state.dart';
@@ -12,6 +13,7 @@ import 'package:capstone_project/logic/permission_handler.dart/permission_handle
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -22,16 +24,31 @@ class DonatePage extends StatefulWidget {
 }
 
 class _DonatePageState extends State<DonatePage> {
-  List<String> motivationalQuotes = [
+  final List<String> _motivationalQuotes = [
+    "Your donation can change a life today.",
     "No one should sleep hungry when we can help.",
-    "Your generosity helps protect others from cold.",
+    "Your clothes can bring warmth to those in need.",
     "A single dose can bring hope to someone in need.",
     "Books shared today shape minds for tomorrow.",
+    "Your generosity helps turn empty houses into homes.",
     "Your small act of kindness can create a big change.",
   ];
+  int _currentQuoteIndex = 0;
+
+  final _donationItemTypes = [
+    "food",
+    "cloth",
+    "medicine",
+    "book",
+    "household",
+    "other",
+  ];
+
   DateTime _postDate = DateTime.now();
   TextEditingController nameController = TextEditingController();
   TextEditingController discriptionController = TextEditingController();
+
+  String? _itemType;
 
   bool _isNameError = false;
 
@@ -77,6 +94,24 @@ class _DonatePageState extends State<DonatePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AnimatedTextKit(
+                animatedTexts: [
+                  TyperAnimatedText(
+                    _motivationalQuotes[_currentQuoteIndex],
+                    speed: Duration(milliseconds: 110),
+                    textStyle: GoogleFonts.bonheurRoyale(
+                      fontSize: 27,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.green(0.8),
+                      backgroundColor: AppColors.lightGreen(0.1),
+                    ),
+                  ),
+                ],
+                displayFullTextOnTap: true,
+                repeatForever: true,
+                isRepeatingAnimation: true,
+              ),
+              SizedBox(height: 20),
               Card(
                 margin: const EdgeInsets.symmetric(horizontal: 5),
                 elevation: 0.3,
@@ -214,13 +249,18 @@ class _DonatePageState extends State<DonatePage> {
               SizedBox(height: 27),
               DropdownButtonFormField<String>(
                 borderRadius: BorderRadius.circular(15),
-                items: ["food", "cloth", "book"]
+                items: _donationItemTypes
                     .map(
                       (item) =>
                           DropdownMenuItem(value: item, child: Text(item)),
                     )
                     .toList(),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  _itemType = value;
+                  setState(() {
+                    _currentQuoteIndex = _donationItemTypes.indexOf(value!) + 1;
+                  });
+                },
                 initialValue: null,
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -368,10 +408,39 @@ class _DonatePageState extends State<DonatePage> {
                     setState(() {
                       _isNameError = nameController.text.isEmpty;
                     });
-                    if (!_isNameError) {
+
+                    (context.read<DeviceLocationCubit>().state is LocatedState)
+                        ? null
+                        : showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              icon: Icon(
+                                Icons.warning_amber_rounded,
+                                color: AppColors.red(1),
+                              ),
+                              content: Text("Item Location must be filled!"),
+                            ),
+                          );
+                    _itemType != null
+                        ? null
+                        : showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              icon: Icon(
+                                Icons.warning_amber_rounded,
+                                color: AppColors.red(1),
+                              ),
+                              content: Text("Item Type must be selected!"),
+                            ),
+                          );
+                    if (!_isNameError &&
+                        _itemType != null &&
+                        (context.read<DeviceLocationCubit>().state
+                            is LocatedState)) {
                       showDialog(
                         context: context,
                         builder: (_) => _itemPostPreveiw(),
+                        barrierDismissible: false,
                       );
                     }
                   },
@@ -395,6 +464,86 @@ class _DonatePageState extends State<DonatePage> {
   }
 
   Widget _itemPostPreveiw() {
-    return AlertDialog();
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          (context.read<SelectImageCubit>().state is ImageSelected)
+              ? Image.file(
+                  (context.read<SelectImageCubit>().state as ImageSelected)
+                      .image!,
+                  height: 250,
+                  width: 320,
+                  fit: BoxFit.contain,
+                )
+              : Column(
+                  children: [
+                    Image.asset(
+                      "assets/kindBridge_logo.png",
+                      height: 250,
+                      width: 320,
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "No Image Selected! \n Is recommended to add Item image",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.red(1),
+                      ),
+                    ),
+                  ],
+                ),
+          SizedBox(height: 20),
+          Text(
+            "Item Name: ${nameController.text}",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text("Item Type: $_itemType", style: TextStyle(fontSize: 15)),
+          Text(
+            "Description: ${discriptionController.text.isEmpty ? "No description" : discriptionController.text}",
+            style: TextStyle(fontSize: 14),
+          ),
+          Text(
+            "Post Date: ${_postDate.month}-${_postDate.day}-${_postDate.year}",
+            style: TextStyle(fontSize: 14),
+          ),
+          Text(
+            "Location: ${(context.read<DeviceLocationCubit>().state as LocatedState).position!.latitude} , ${(context.read<DeviceLocationCubit>().state as LocatedState).position!.longitude}",
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            'Cancel',
+            style: TextStyle(
+              color: AppColors.red(0.8),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            // Implement post submission logic here
+
+            Navigator.pop(context);
+          },
+          child: Text(
+            'Post',
+            style: TextStyle(
+              color: AppColors.green(0.8),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
