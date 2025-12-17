@@ -17,7 +17,7 @@ class NgoHomePage extends StatelessWidget {
           // backgroundColor: AppColors.lightGreen(0.2),
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
-              'User Name',
+              'Ngo Name',
               style: TextStyle(
                 color: AppColors.black(1),
                 fontSize: 18,

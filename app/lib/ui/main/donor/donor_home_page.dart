@@ -50,7 +50,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
           // backgroundColor: AppColors.lightGreen(0.2),
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
-              'User Name',
+              'Donor Name',
               style: TextStyle(
                 color: AppColors.black(1),
                 fontSize: 18,
