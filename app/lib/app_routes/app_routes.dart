@@ -6,14 +6,16 @@ class AppRoutes {
 
   static const String mainPage = '/mainPage';
   static const String profilePage = '/profilePage';
-  static const String homePage = '/homePage';
   static const String notificationPage = '/notificationPage';
 
   static const String donatePage = '/donatePage';
   static const String myDonationPage = '/myDonationPage';
+  static const String donorHomePage = '/donorHomePage';
 
   static const String findDonationsPage = '/findDonationsPage';
   static const String mapPage = '/mapPage';
+  static const String ngoHomePage = '/ngoHomePage';
+
   // static const String accepted = '/acceptedPage';
 }
 

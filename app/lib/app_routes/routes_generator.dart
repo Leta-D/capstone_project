@@ -27,7 +27,10 @@ class RoutesGenerator {
       case AppRoutes.mainPage:
         return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
 
-      case AppRoutes.homePage:
+      case AppRoutes.donorHomePage:
+        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+
+      case AppRoutes.ngoHomePage:
         return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
 
       case AppRoutes.profilePage:

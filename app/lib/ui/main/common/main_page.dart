@@ -6,6 +6,7 @@ import 'package:capstone_project/ui/main/donor/donate_page.dart';
 import 'package:capstone_project/ui/main/donor/my_donations_page.dart';
 import 'package:capstone_project/ui/main/ngo/find_donations_page.dart';
 import 'package:capstone_project/ui/main/ngo/map_page.dart';
+import 'package:capstone_project/ui/main/ngo/ngo_home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class _MainPageState extends State<MainPage> {
       "label": "Home",
       "icon": CupertinoIcons.home,
       "iconT": Icons.home,
-      "target": DonorHomePage(),
+      "target": NgoHomePage(),
     },
     {
       "label": "Find Donations",
@@ -91,7 +92,7 @@ class _MainPageState extends State<MainPage> {
           ? null
           : AppBar(
               title: Text(
-                donorDrawerPages
+                ngoDrawerPages
                     .map((e) => e["label"])
                     .toList()[currentPageIndex],
               ),
@@ -137,7 +138,7 @@ class _MainPageState extends State<MainPage> {
                   height: 450,
                   child: ListView.builder(
                     // padding: EdgeInsets.only(top: 10),
-                    itemCount: donorDrawerPages.length,
+                    itemCount: ngoDrawerPages.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
@@ -175,10 +176,10 @@ class _MainPageState extends State<MainPage> {
                               : null,
                           leading: Icon(
                             (currentPageIndex == index)
-                                ? donorDrawerPages[index]["iconT"]
-                                : donorDrawerPages[index]["icon"],
+                                ? ngoDrawerPages[index]["iconT"]
+                                : ngoDrawerPages[index]["icon"],
                           ),
-                          title: Text(donorDrawerPages[index]["label"]),
+                          title: Text(ngoDrawerPages[index]["label"]),
                           shape: BeveledRectangleBorder(
                             borderRadius: BorderRadius.circular(9),
                           ),
@@ -236,7 +237,7 @@ class _MainPageState extends State<MainPage> {
       //   ],
       // ),
       // backgroundColor: AppColors.white(0.88),
-      body: donorDrawerPages.map((e) => e["target"]).toList()[currentPageIndex],
+      body: ngoDrawerPages.map((e) => e["target"]).toList()[currentPageIndex],
     );
   }
 }
