@@ -282,7 +282,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pop(context),
+                          // onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            setState(() {
+                              nameError = nameController.text.length < 3;
+                              emailError = !RegExp(
+                                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                              ).hasMatch(emailController.text);
+                            });
+
+                            if (!nameError && !emailError) {
+                              print("Sending data");
+                              Navigator.pop(context);
+                            }
+                          },
                           child: Text(
                             'Change',
                             style: TextStyle(
