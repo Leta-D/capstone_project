@@ -7,7 +7,7 @@ class ItemModel {
   String description;
   bool available;
   String location;
-  List<String> images;
+  String image;
   DateTime createdAt;
 
   ItemModel({
@@ -19,7 +19,7 @@ class ItemModel {
     required this.description,
     required this.available,
     required this.location,
-    required this.images,
+    required this.image,
     required this.createdAt,
   });
 }

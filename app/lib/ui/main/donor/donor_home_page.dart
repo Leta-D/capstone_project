@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_project/constant/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
           // backgroundColor: AppColors.lightGreen(0.2),
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
-              'Leta Dejene',
+              'User Name',
               style: TextStyle(
                 color: AppColors.black(1),
                 fontSize: 18,
@@ -75,24 +76,22 @@ class _DonorHomePageState extends State<DonorHomePage> {
                           radius: 45,
                           backgroundColor: AppColors.lightGreen(0.3),
                           child: ClipOval(
-                            child: Image.network(
-                              'https://your-backend.com/uploads/profile.jpg',
+                            child: CachedNetworkImage(
+                              imageUrl: 'fromBackend/Users{id}/profile.jpg',
                               width: 90,
                               height: 90,
                               fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return const CircularProgressIndicator(
-                                      color: Color.fromARGB(225, 17, 245, 112),
-                                      strokeWidth: 2,
-                                    );
-                                  },
-                              errorBuilder: (context, error, stackTrace) {
+                              placeholder: (context, url) {
+                                return const CircularProgressIndicator(
+                                  color: Color.fromARGB(224, 3, 241, 102),
+                                  strokeWidth: 2,
+                                );
+                              },
+                              errorWidget: (context, error, e) {
                                 return const Icon(
                                   Icons.person,
                                   size: 40,
-                                  color: Color.fromARGB(223, 57, 114, 81),
+                                  color: Color.fromARGB(255, 1, 165, 69),
                                 );
                               },
                             ),
@@ -187,15 +186,47 @@ class _DonorHomePageState extends State<DonorHomePage> {
             child: ListView.builder(
               controller: _controller,
               scrollDirection: Axis.horizontal,
-              itemCount: 5,
+              itemCount: 6,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemBuilder: (context, index) {
-                return _buildPopularDonationsItem(index);
+                return (index < 5)
+                    ? _buildPopularDonationsItem(index)
+                    : SizedBox(
+                        width: 70,
+                        child: Card(
+                          clipBehavior: Clip.hardEdge,
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          elevation: 0,
+                          color: AppColors.grey(0.3),
+                          shape: BeveledRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: InkWell(
+                            onTap: () {},
+                            splashColor: AppColors.lightGreen(0.5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.more_horiz),
+                                Text(
+                                  'More',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
               },
             ),
           ),
         ),
+
         SliverToBoxAdapter(child: SizedBox(height: 40)),
+
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0, bottom: 20),
