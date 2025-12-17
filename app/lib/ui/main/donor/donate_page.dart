@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:capstone_project/constant/app_colors.dart';
+import 'package:capstone_project/logic/auth/auth_state.dart';
 import 'package:capstone_project/logic/device_access/device_loaction_state.dart';
 import 'package:capstone_project/logic/device_access/device_location_cubit.dart';
 import 'package:capstone_project/logic/device_access/select_image_cubit.dart';
@@ -21,81 +22,18 @@ class DonatePage extends StatefulWidget {
 }
 
 class _DonatePageState extends State<DonatePage> {
-  // File? _image;
-  // final ImagePicker _picker = ImagePicker();
+  List<String> motivationalQuotes = [
+    "No one should sleep hungry when we can help.",
+    "Your generosity helps protect others from cold.",
+    "A single dose can bring hope to someone in need.",
+    "Books shared today shape minds for tomorrow.",
+    "Your small act of kindness can create a big change.",
+  ];
+  DateTime _postDate = DateTime.now();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController discriptionController = TextEditingController();
 
-  // Future<void> pickImage(ImageSource source) async {
-  //   // bool granted = await requestGalleryPermission(
-  //   //   source == ImageSource.camera ? 'camera' : 'gallery',
-  //   // );
-  //   // if (granted) {
-  //   final XFile? picked = await _picker.pickImage(source: source);
-
-  //   if (picked != null) {
-  //     setState(() {
-  //       _image = File(picked.path);
-  //     });
-  //     // }
-  //   } else {
-  //     showDialog(
-  //       context: context,
-  //       builder: (_) => AlertDialog(
-  //         title: const Text('Permission Denied'),
-  //         content: const Text(
-  //           'Gallery access is required to upload images. '
-  //           'Please enable the permission to continue.',
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () => Navigator.pop(context),
-  //             child: const Text('OK'),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // Future<Position?> getCurrentLocation() async {
-  //   // bool hasPermission = await requestLocationPermission();
-
-  //   // if (!hasPermission) return null;
-
-  //   return await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
-  // }
-
-  // Future<bool> requestGalleryPermission(String type) async {
-  //   PermissionStatus status = (type == 'camera')
-  //       ? await Permission.camera.request()
-  //       : await Permission.photos.request();
-
-  //   if (status.isGranted) {
-  //     return true;
-  //   } else if (status.isDenied) {
-  //     return false;
-  //   } else if (status.isPermanentlyDenied) {
-  //     openAppSettings();
-  //     return false;
-  //   }
-  //   return false;
-  // }
-
-  // Future<bool> requestLocationPermission() async {
-  //   LocationPermission permission = await Geolocator.checkPermission();
-
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //   }
-
-  //   if (permission == LocationPermission.deniedForever) {
-  //     return false;
-  //   }
-
-  //   return permission == LocationPermission.whileInUse ||
-  //       permission == LocationPermission.always;
-  // }
+  bool _isNameError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +134,12 @@ class _DonatePageState extends State<DonatePage> {
                       child: Column(
                         children: [
                           if (state is ImageInitialState)
-                            CircularProgressIndicator(),
+                            Image.asset(
+                              "assets/kindBridge_logo.png",
+                              height: 250,
+                              width: 320,
+                              fit: BoxFit.contain,
+                            ),
                           if (state is ImageSelected)
                             Image.file(
                               state.image!,
@@ -206,8 +149,14 @@ class _DonatePageState extends State<DonatePage> {
                             ),
 
                           Text(
-                            'Tap to select image',
-                            style: const TextStyle(fontSize: 16),
+                            state is ImageSelected
+                                ? "Tap to Change Image"
+                                : 'Tap to select image',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: AppColors.white(1),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -250,6 +199,7 @@ class _DonatePageState extends State<DonatePage> {
                 child: Text("Item Name", style: TextStyle(fontSize: 18)),
               ),
               TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -258,6 +208,7 @@ class _DonatePageState extends State<DonatePage> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: AppColors.lightGreen(0.8)),
                   ),
+                  errorText: _isNameError ? "Item Name Can't be Empty!" : null,
                 ),
               ),
               SizedBox(height: 27),
@@ -293,7 +244,7 @@ class _DonatePageState extends State<DonatePage> {
                     child:
                         BlocConsumer<DeviceLocationCubit, DeviceLoactionState>(
                           builder: (context, state) => ListTile(
-                            onTap: () async {
+                            onTap: () {
                               // Position? position = await getCurrentLocation();
                               BlocProvider.of<PermissionHandlerCubit>(
                                 context,
@@ -301,12 +252,18 @@ class _DonatePageState extends State<DonatePage> {
                               BlocProvider.of<DeviceLocationCubit>(
                                 context,
                               ).getCurrentLocation();
-                              state is LocatedState
-                                  ? print(state.position)
-                                  : print("not located");
                             },
                             leading: Icon(Icons.pin_drop_outlined),
-                            title: Text("Location"),
+                            title: state is LocationLoadingState
+                                ? CircularProgressIndicator(
+                                    color: AppColors.green(0.7),
+                                    strokeWidth: 1.5,
+                                  )
+                                : Text(
+                                    state is LocatedState
+                                        ? "${state.position}"
+                                        : "Location",
+                                  ),
                             shape: BeveledRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                               side: BorderSide(
@@ -347,8 +304,32 @@ class _DonatePageState extends State<DonatePage> {
                   SizedBox(
                     width: 160,
                     child: ListTile(
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(
+                            DateTime.now().year + 1,
+                            DateTime.now().month,
+                          ),
+                          builder: (context, child) => Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: AppColors.green(0.67),
+                                onSecondary: AppColors.white(1),
+                              ),
+                            ),
+                            child: child!,
+                          ),
+                        );
+                        if (pickedDate != null) {
+                          setState(() => _postDate = pickedDate);
+                        }
+                      },
                       leading: Icon(Icons.date_range),
-                      title: Text("Date"),
+                      title: Text(
+                        "${_postDate.month}-${_postDate.day}-${_postDate.year}",
+                      ),
                       shape: BeveledRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(
@@ -367,6 +348,7 @@ class _DonatePageState extends State<DonatePage> {
                 child: Text("Description", style: TextStyle(fontSize: 18)),
               ),
               TextField(
+                controller: discriptionController,
                 maxLines: 5,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -378,60 +360,41 @@ class _DonatePageState extends State<DonatePage> {
                   ),
                 ),
               ),
+              SizedBox(height: 25),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _isNameError = nameController.text.isEmpty;
+                    });
+                    if (!_isNameError) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => _itemPostPreveiw(),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: AppColors.green(0.7),
+                  ),
+                  child: Text(
+                    "Preveiw",
+                    style: TextStyle(color: AppColors.white(1), fontSize: 16),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
-      // child: BlocConsumer<DeviceAccessCubit, DeviceAccessState>(
-      //   listener: (context, state) {
-      //     if (state is ImageSelected) {
-      //       ScaffoldMessenger.of(context).showSnackBar(
-      //         snackBarAnimationStyle: AnimationStyle(curve: Curves.easeInOut),
-      //         SnackBar(
-      //           content: Text(
-      //             "Image Selected"
-      //             "${state.image!.path}",
-      //             style: TextStyle(color: AppColors.black(1)),
-      //           ),
-      //           duration: Duration(seconds: 1),
-      //           behavior: SnackBarBehavior.floating,
-      //           backgroundColor: AppColors.white(1),
-      //           shape: BeveledRectangleBorder(
-      //             borderRadius: BorderRadius.circular(20),
-      //           ),
-      //           margin: EdgeInsets.only(
-      //             bottom: screenSize.height - 120,
-      //             left: 16,
-      //             right: 16,
-      //           ),
-      //         ),
-      //       );
-      //     } else if (state is LocationSelected) {
-      //       ScaffoldMessenger.of(context).showSnackBar(
-      //         snackBarAnimationStyle: AnimationStyle(curve: Curves.easeInOut),
-      //         SnackBar(
-      //           content: Text(
-      //             "Location Selected"
-      //             "${state.position}",
-      //             style: TextStyle(color: AppColors.black(1)),
-      //           ),
-      //           duration: Duration(seconds: 1),
-      //           behavior: SnackBarBehavior.floating,
-      //           backgroundColor: AppColors.white(1),
-      //           shape: BeveledRectangleBorder(
-      //             borderRadius: BorderRadius.circular(20),
-      //           ),
-      //           margin: EdgeInsets.only(
-      //             bottom: screenSize.height - 120,
-      //             left: 16,
-      //             right: 16,
-      //           ),
-      //         ),
-      //       );
-      //     }
-      //   },
-      //   builder: (context, state) =>
-      // ),
     );
+  }
+
+  Widget _itemPostPreveiw() {
+    return AlertDialog();
   }
 }

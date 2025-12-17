@@ -9,7 +9,6 @@ class SelectImageCubit extends Cubit<SelectImageState> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> selectImageFromGallery() async {
-    emit(ImageLoadingState());
     final XFile? picked = await _picker.pickImage(source: ImageSource.gallery);
     if (picked != null) {
       emit(ImageSelected(File(picked.path)));
@@ -17,7 +16,6 @@ class SelectImageCubit extends Cubit<SelectImageState> {
   }
 
   Future<void> selectImageFromCamera() async {
-    emit(ImageLoadingState());
     final XFile? picked = await _picker.pickImage(source: ImageSource.camera);
     if (picked != null) {
       emit(ImageSelected(File(picked.path)));
