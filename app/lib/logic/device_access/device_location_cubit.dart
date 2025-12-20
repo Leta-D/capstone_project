@@ -8,7 +8,7 @@ class DeviceLocationCubit extends Cubit<DeviceLoactionState> {
   Future<void> getCurrentLocation() async {
     emit(LocationLoadingState());
     Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
     );
     emit(LocatedState(position));
   }
