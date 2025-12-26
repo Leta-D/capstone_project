@@ -203,8 +203,8 @@ class MainPage extends StatelessWidget {
                                       (route) => false,
                                       arguments: {
                                         'animation':
-                                            AppRouteAnimationType.rotation,
-                                        'duration': 500,
+                                            AppRouteAnimationType.scale,
+                                        'duration': 300,
                                       },
                                     ),
                                 child: Text(

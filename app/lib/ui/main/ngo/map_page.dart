@@ -3,6 +3,7 @@ import 'package:capstone_project/logic/device_access/device_loaction_state.dart'
 import 'package:capstone_project/logic/device_access/device_location_cubit.dart';
 import 'package:capstone_project/logic/map_controller/map_controller_cubit.dart';
 import 'package:capstone_project/logic/map_controller/map_controller_state.dart';
+import 'package:capstone_project/logic/page_controller/page_controller_cubit.dart';
 import 'package:capstone_project/logic/permission_handler.dart/permission_handler_cubit.dart';
 import 'package:capstone_project/logic/permission_handler.dart/permission_handler_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -162,18 +163,81 @@ class _MapPageState extends State<MapPage> {
                                 GestureDetector(
                                   onTap: () {
                                     print("object");
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Marker tapped at ${state.center.latitude}, ${state.center.longitude}",
+                                          style: TextStyle(
+                                            color: AppColors.black(1),
+                                          ),
+                                        ),
+                                        duration: Duration(seconds: 3),
+                                        action: SnackBarAction(
+                                          label: "Profile Page",
+                                          textColor: AppColors.white(1),
+                                          backgroundColor: AppColors.black(1),
+                                          onPressed: () {
+                                            // Navigate to the profile page
+                                            (context)
+                                                .read<PageControllerCubit>()
+                                                .changeMainPageIndex(4);
+                                          },
+                                        ),
+                                        backgroundColor: AppColors.lightGreen(
+                                          0.7,
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: MarkerLayer(
                                     markers: [
                                       Marker(
                                         point: state.center,
-                                        width: 40,
-                                        height: 40,
+                                        width: 45,
+                                        height: 60,
                                         // rotate: true,
-                                        child: Icon(
-                                          Icons.location_pin,
-                                          color: Colors.red,
-                                          size: 40,
+                                        child: Container(
+                                          padding: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.blue(0.41),
+
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              // Top circle
+                                              Container(
+                                                padding: const EdgeInsets.all(
+                                                  5,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.green(0.5),
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: AppColors.red(1),
+                                                    width: 2,
+                                                  ),
+                                                ),
+                                                child: Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
+                                              ),
+
+                                              // Small rectangle to look like the pointer
+                                              Container(
+                                                width: 8,
+                                                height: 12,
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.red(0.8),
+                                                  borderRadius:
+                                                      BorderRadius.circular(2),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       for (var item in state.markers)
@@ -206,9 +270,12 @@ class _MapPageState extends State<MapPage> {
                                   onPressed: () {
                                     mapController.move(state.center, 15);
                                   },
-                                  backgroundColor: AppColors.green(
-                                    1,
-                                  ).withBlue(100),
+                                  backgroundColor: const Color.fromARGB(
+                                    255,
+                                    203,
+                                    241,
+                                    209,
+                                  ),
                                   elevation: 5,
                                   shape: BeveledRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -219,7 +286,7 @@ class _MapPageState extends State<MapPage> {
                                     Icons.location_searching_rounded,
                                     size: 28,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.white(1),
+                                    color: AppColors.red(1),
                                   ),
                                 ),
                               ),
