@@ -48,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(
+                        Navigator.pushReplacementNamed(
                           context,
                           AppRoutes.login,
                           arguments: {
@@ -70,10 +70,11 @@ class _SignupPageState extends State<SignupPage> {
                 spacing: 20,
                 children: [
                   ClipOval(
-                    child: Container(
-                      color: AppColors.green(1),
-                      width: 100,
-                      height: 100,
+                    child: Image.asset(
+                      "assets/kindBridge_logo.png",
+                      width: 130,
+                      height: 130,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   Text(

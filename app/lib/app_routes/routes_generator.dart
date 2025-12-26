@@ -3,7 +3,16 @@ import 'package:capstone_project/constant/app_colors.dart';
 import 'package:capstone_project/ui/authen/login_page.dart';
 import 'package:capstone_project/ui/authen/signup_page.dart';
 import 'package:capstone_project/ui/landing_pages/actor_selection.dart';
+import 'package:capstone_project/ui/main/common/detailed_item_view.dart';
 import 'package:capstone_project/ui/main/common/main_page.dart';
+import 'package:capstone_project/ui/main/common/notifications_page.dart';
+import 'package:capstone_project/ui/main/common/profile_page.dart';
+import 'package:capstone_project/ui/main/donor/donate_page.dart';
+import 'package:capstone_project/ui/main/donor/donor_home_page.dart';
+import 'package:capstone_project/ui/main/donor/my_donations_page.dart';
+import 'package:capstone_project/ui/main/ngo/find_donations_page.dart';
+import 'package:capstone_project/ui/main/ngo/map_page.dart';
+import 'package:capstone_project/ui/main/ngo/ngo_home_page.dart';
 import 'package:flutter/material.dart';
 
 class RoutesGenerator {
@@ -14,42 +23,89 @@ class RoutesGenerator {
       case AppRoutes.actorSelection:
         return _animatedRoute(
           ActorSelection(),
-          args?["anim"],
+          args?["animation"],
           args?["duration"],
         );
 
       case AppRoutes.login:
-        return _animatedRoute(LoginPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          LoginPage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.signup:
-        return _animatedRoute(SignupPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          SignupPage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.mainPage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          MainPage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.donorHomePage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          DonorHomePage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.ngoHomePage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          NgoHomePage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.profilePage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          ProfilePage(),
+          args?["animation"],
+          args?["duration"],
+        );
+
+      case AppRoutes.detailedItemView:
+        return _animatedRoute(
+          DetailedItemView(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.mapPage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(MapPage(), args?["animation"], args?["duration"]);
 
       case AppRoutes.donatePage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          DonatePage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.myDonationPage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          MyDonationsPage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.findDonationsPage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          FindDonationsPage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       case AppRoutes.notificationPage:
-        return _animatedRoute(MainPage(), args?["anim"], args?["duration"]);
+        return _animatedRoute(
+          NotificationsPage(),
+          args?["animation"],
+          args?["duration"],
+        );
 
       default:
         return MaterialPageRoute(

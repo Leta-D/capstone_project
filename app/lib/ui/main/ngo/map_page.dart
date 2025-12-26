@@ -21,6 +21,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  MapController mapController = MapController();
   bool _permissionDenied = false;
   @override
   void initState() {
@@ -135,9 +136,11 @@ class _MapPageState extends State<MapPage> {
                         child: Stack(
                           children: [
                             FlutterMap(
+                              mapController: mapController,
                               options: MapOptions(
                                 initialCenter: state.center,
                                 initialZoom: 15,
+
                                 // onPositionChanged: (_, __) {
                                 //   mapController.followUser = false;
                                 // },
@@ -200,7 +203,9 @@ class _MapPageState extends State<MapPage> {
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: FloatingActionButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    mapController.move(state.center, 15);
+                                  },
                                   backgroundColor: AppColors.green(
                                     1,
                                   ).withBlue(100),

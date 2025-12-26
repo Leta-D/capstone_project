@@ -3,6 +3,7 @@ import 'package:capstone_project/app_routes/routes_generator.dart';
 import 'package:capstone_project/logic/device_access/device_location_cubit.dart';
 import 'package:capstone_project/logic/device_access/select_image_cubit.dart';
 import 'package:capstone_project/logic/map_controller/map_controller_cubit.dart';
+import 'package:capstone_project/logic/page_controller/page_controller_cubit.dart';
 import 'package:capstone_project/logic/permission_handler.dart/permission_handler_cubit.dart';
 import 'package:capstone_project/ui/authen/login_page.dart';
 import 'package:capstone_project/ui/authen/signup_page.dart';
@@ -25,10 +26,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => SelectImageCubit()),
         BlocProvider(create: (_) => DeviceLocationCubit()),
         BlocProvider(create: (_) => MapControllerCubit()),
+        BlocProvider(create: (_) => PageControllerCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.mainPage,
+        initialRoute: AppRoutes.actorSelection,
         onGenerateRoute: RoutesGenerator.generateRoute,
       ),
     );

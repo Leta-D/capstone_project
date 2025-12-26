@@ -7,6 +7,7 @@ class AppRoutes {
   static const String mainPage = '/mainPage';
   static const String profilePage = '/profilePage';
   static const String notificationPage = '/notificationPage';
+  static const String detailedItemView = '/detailedItemView';
 
   static const String donatePage = '/donatePage';
   static const String myDonationPage = '/myDonationPage';

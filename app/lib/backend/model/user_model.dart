@@ -4,7 +4,7 @@ class UserModel {
   String email;
   String password;
   String role;
-  String phoneNumber;
+  String? phoneNumber;
   String? profileImageUrl;
   String badge;
   bool isActive;

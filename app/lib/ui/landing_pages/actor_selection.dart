@@ -1,5 +1,8 @@
+import 'package:capstone_project/app_routes/app_routes.dart';
 import 'package:capstone_project/constant/app_colors.dart';
+import 'package:capstone_project/logic/page_controller/page_controller_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ActorSelection extends StatefulWidget {
   const ActorSelection({super.key});
@@ -12,7 +15,7 @@ class _ActorSelectionState extends State<ActorSelection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      // appBar: AppBar(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -22,14 +25,15 @@ class _ActorSelectionState extends State<ActorSelection> {
             spacing: 15,
             children: [
               ClipOval(
-                child: Container(
-                  color: AppColors.green(1),
-                  width: 100,
-                  height: 100,
+                child: Image.asset(
+                  "assets/kindBridge_logo.png",
+                  width: 130,
+                  height: 130,
+                  fit: BoxFit.contain,
                 ),
               ),
               // Text("KindBridge"),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -121,7 +125,19 @@ class _ActorSelectionState extends State<ActorSelection> {
                 ),
               SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  (selection == 0)
+                      ? (context).read<PageControllerCubit>().setDonor()
+                      : (context).read<PageControllerCubit>().setNgo();
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.login,
+                    arguments: {
+                      'animation': AppRouteAnimationType.slide,
+                      'duration': 600,
+                    },
+                  );
+                },
 
                 style: ElevatedButton.styleFrom(
                   foregroundColor: AppColors.white(1),

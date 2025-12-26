@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(
+                        Navigator.pushReplacementNamed(
                           context,
                           AppRoutes.signup,
                           arguments: {
@@ -62,17 +62,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 20,
                 children: [
                   ClipOval(
-                    child: Container(
-                      color: AppColors.green(1),
-                      width: 100,
-                      height: 100,
+                    child: Image.asset(
+                      "assets/kindBridge_logo.png",
+                      width: 130,
+                      height: 130,
+                      fit: BoxFit.contain,
                     ),
                   ),
+                  SizedBox(height: 10),
                   Text(
                     "Sign in to your account",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -149,6 +152,14 @@ class _LoginPageState extends State<LoginPage> {
 
                       if (!emailError && !passError) {
                         print("Sending data");
+                        Navigator.pushReplacementNamed(
+                          context,
+                          AppRoutes.mainPage,
+                          arguments: {
+                            "anim": AppRouteAnimationType.rotation,
+                            "duration": 500,
+                          },
+                        );
                       }
                     },
 
@@ -163,6 +174,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     child: Text("Sign in", style: TextStyle(fontSize: 16)),
                   ),
+                  SizedBox(height: 20),
                 ],
               ),
             ],
