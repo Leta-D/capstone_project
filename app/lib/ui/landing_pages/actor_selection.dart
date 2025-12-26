@@ -2,6 +2,7 @@ import 'package:capstone_project/app_routes/app_routes.dart';
 import 'package:capstone_project/constant/app_colors.dart';
 import 'package:capstone_project/logic/page_controller/page_controller_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ActorSelection extends StatefulWidget {
@@ -19,16 +20,19 @@ class _ActorSelectionState extends State<ActorSelection> {
         bool exit = await showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            title: Text("Exit App"),
+            title: Text(
+              "Exit App",
+              style: TextStyle(color: AppColors.red(0.6), fontSize: 22),
+            ),
             content: Text("Are you sure you want to exit?"),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text("No"),
+                child: Text("No", style: TextStyle(color: AppColors.green(1))),
               ),
               TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text("Yes"),
+                onPressed: () => SystemNavigator.pop(),
+                child: Text("Yes", style: TextStyle(color: AppColors.red(1))),
               ),
             ],
           ),

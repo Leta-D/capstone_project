@@ -152,9 +152,10 @@ class _LoginPageState extends State<LoginPage> {
 
                       if (!emailError && !passError) {
                         print("Sending data");
-                        Navigator.pushReplacementNamed(
+                        Navigator.pushNamedAndRemoveUntil(
                           context,
                           AppRoutes.mainPage,
+                          (route) => false,
                           arguments: {
                             "anim": AppRouteAnimationType.rotation,
                             "duration": 500,
