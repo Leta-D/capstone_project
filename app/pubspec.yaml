@@ -1,4 +1,4 @@
-name: app
+name: capstone_project
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -34,6 +34,23 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  # bloc: ^9.1.0
+  flutter_staggered_grid_view: ^0.7.0
+  cached_network_image: ^3.4.1
+  image_picker: ^1.2.1
+  permission_handler: ^12.0.1
+  geolocator: ^14.0.2
+  flutter_bloc: ^9.1.1
+  animated_text_kit: ^4.3.0
+  google_fonts: ^6.3.3
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
+  flutter_secure_storage: ^10.0.0
+  equatable: ^2.0.7
+  dio: ^5.9.0
+  jwt_decode: ^0.3.1
+  flutter_animate: ^4.5.2
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -58,9 +75,52 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/charity.png
+    - assets/ngo.png
+    - assets/volunteer_activism.png 
+    - assets/kindBridge_logo.png
+    - assets/bridge_logo.png
+    
+    # images for handling error
+    - assets/error_images/unknown.png
+    - assets/error_images/404.png
+    - assets/error_images/network.png
+    - assets/error_images/noUser.png
+    - assets/error_images/password.png
+    - assets/error_images/usedEmail.png
+    - assets/error_images/logout.png
+
+    # images used for donor dashboard 
+    - assets/images/dashboard_image_1.jpg
+    - assets/images/dashboard_image_2.jpg
+    - assets/images/dashboard_image_3.jpg
+    - assets/images/dashboard_image_4.jpg
+    - assets/images/dashboard_image_5.jpg
+  # dummy data holder image
+    - assets/dummy_assets/jacket.jpg
+    - assets/dummy_assets/rice.jpg
+    - assets/dummy_assets/School_Notebooks.jpeg
+    - assets/dummy_assets/Used_Laptops.jpeg
+    - assets/dummy_assets/Baby_Clothes.jpeg
+    - assets/dummy_assets/Medical_Masks.jpeg
+    - assets/dummy_assets/Blankets.jpeg
+    - assets/dummy_assets/Cooking_Utensils.jpeg
+    - assets/dummy_assets/Story_Books.jpeg
+    - assets/dummy_assets/Dry_Food_Package.jpeg
+    
+  # dummy data for donation requests
+    - assets/dummy_assets/requests/Children’s Storybooks.jpeg
+    - assets/dummy_assets/requests/First Aid Kits.jpeg
+    - assets/dummy_assets/requests/Lunch for Refugee Children.jpeg
+    - assets/dummy_assets/requests/school for Refugee Children.jpeg
+    - assets/dummy_assets/requests/fundraising for heart surgery.jpeg
+    - assets/dummy_assets/requests/Winter Hats and Gloves.jpeg
+    - assets/dummy_assets/requests/LED_Lamps.jpeg
+    - assets/dummy_assets/requests/Reusable Water Bottles.jpeg
+    - assets/dummy_assets/requests/Solar Lanterns.jpeg
+    - assets/dummy_assets/requests/Winter Boots.jpeg
+    - assets/dummy_assets/requests/Winter Hats and Gloves.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
