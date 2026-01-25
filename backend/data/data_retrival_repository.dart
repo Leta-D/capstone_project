@@ -6,8 +6,8 @@ class DataRetrivalRepository {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: "https://capstone-api-dwzu.onrender.com",
-      connectTimeout: Duration(seconds: 30),
-      receiveTimeout: Duration(seconds: 30),
+      connectTimeout: Duration(seconds: 31),
+      receiveTimeout: Duration(seconds: 31),
     ),
   );
 
