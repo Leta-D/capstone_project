@@ -1,0 +1,15 @@
+import 'package:flutter/material.dart';
+
+class OnbordingPage extends StatefulWidget {
+  const OnbordingPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _OnbordingPageState();
+}
+
+class _OnbordingPageState extends State<OnbordingPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Container());
+  }
+}
